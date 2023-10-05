@@ -32,7 +32,7 @@ function CustomerLogin() {
 
         const config = {
             method: 'post',
-            url: 'https://localhost:44347/api/auth/login',
+            url: 'http://localhost:50000/api/auth/login',
             headers: {
                 'Content-Type': 'application/json',
                 "Access-Control-Allow-Origin": "*"

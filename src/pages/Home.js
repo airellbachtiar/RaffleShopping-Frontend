@@ -9,7 +9,7 @@ function Home() {
     useEffect(() => {
         var config = {
             method: 'get',
-            url: 'https://localhost:44304/api/raffle-events/get-raffle-event',
+            url: 'http://localhost:50001/api/raffle-events/get-raffle-event',
             headers: { "Access-Control-Allow-Origin": "*" }
         };
 
