@@ -1,7 +1,17 @@
 import React, { useState } from "react";
 import axios from "axios";
-import { FormControl, FormLabel, Button, Input, Box, Center } from '@chakra-ui/react'
-import { useNavigate } from "react-router-dom";
+import {
+    FormControl,
+    FormLabel,
+    Button,
+    Input,
+    Box,
+    Center,
+    Heading,
+    Text,
+    Link as ChakraLink
+} from "@chakra-ui/react";
+import { useNavigate, Link } from "react-router-dom";
 
 function CustomerLogin() {
 
@@ -22,8 +32,6 @@ function CustomerLogin() {
     const handleSubmit = (e) => {
 
         e.preventDefault();
-
-        console.log(loginForm);
 
         var data = JSON.stringify({
             "email": loginForm.email,
@@ -53,20 +61,63 @@ function CustomerLogin() {
     }
 
     return (
-        <>
-            <Center>
-                <Box maxW='sm' borderWidth='1px' borderRadius='lg' overflow='hidden'>
+        <Center minH="80vh">
+            <Box
+                bg="background.darker"
+                w="350px"
+                p="20px"
+                borderRadius="lg"
+                boxShadow="xl"
+            >
+                <Heading as="h2" size="lg" mb={4}>Login</Heading>
+                <form onSubmit={handleSubmit}>
                     <FormControl>
-                        <FormLabel>Email address</FormLabel>
-                        <Input type='email' name="email" onChange={onChangeLoginForm} value={loginForm.email} />
-                        <FormLabel>Password</FormLabel>
-                        <Input type='password' name="password" onChange={onChangeLoginForm} value={loginForm.password} />
-                        <Button colorScheme='blue' onClick={handleSubmit}>Login</Button>
+                        <FormLabel>Email Address</FormLabel>
+                        <Input
+                            type="email"
+                            name="email"
+                            value={loginForm.email}
+                            onChange={onChangeLoginForm}
+                            borderColor="primary.main"
+                            borderWidth={2}
+                        />
                     </FormControl>
-                </Box>
-            </Center>
-        </>
-    )
-};
+                    <FormControl mt={4}>
+                        <FormLabel>Password</FormLabel>
+                        <Input
+                            type="password"
+                            name="password"
+                            value={loginForm.password}
+                            onChange={onChangeLoginForm}
+                            borderColor="primary.main"
+                            borderWidth={2}
+                        />
+                    </FormControl>
+                    <Button
+                        backgroundColor="accent.main"
+                        color="text.darker"
+                        size="md"
+                        onClick={handleSubmit}
+                        marginTop={4}
+                    >
+                        Login
+                    </Button>
+                </form>
+
+                <Text mt={2} fontSize="sm">
+                    Don't have an account?{" "}
+                    <ChakraLink
+                        as={Link}
+                        to="/Signup"
+                        color="accent.main"
+                        _hover={{ textDecoration: "underline" }}
+                    >
+                        Sign Up
+                    </ChakraLink>
+                </Text>
+            </Box>
+        </Center>
+    );
+}
 
 export default CustomerLogin;
