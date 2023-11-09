@@ -9,6 +9,7 @@ import ManagerLogin from './pages/ManagerLogin';
 import CustomerSignup from './pages/CustomerSignup';
 import ManagerHome from './pages/ManagerHome';
 import RaffleEventForm from "./pages/RaffleEventForm";
+import CatalogForm from "./pages/CatalogForm";
 
 function App() {
   return (
@@ -27,6 +28,7 @@ function App() {
           <Route path="/Signup" element={<CustomerSignup />} />
           <Route path="/ManagerHome" element={<ManagerHome />} />
           <Route path="/RaffleEventForm" element={<RaffleEventForm />} />
+          <Route path="/CatalogForm" element={<CatalogForm />} />
         </Routes>
       </Box>
     </ChakraProvider>
