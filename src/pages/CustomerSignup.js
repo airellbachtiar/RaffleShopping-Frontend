@@ -1,17 +1,20 @@
 import React, { useState } from "react";
 import axios from "axios";
 import {
-  Box,
-  Button,
-  FormControl,
-  FormLabel,
-  Input,
-  Center,
-  Heading,
-  Text,
-  Link as ChakraLink,
+    Box,
+    Button,
+    FormControl,
+    FormLabel,
+    Input,
+    Center,
+    Heading,
+    Text,
+    Link as ChakraLink,
 } from "@chakra-ui/react";
 import { useNavigate, Link } from "react-router-dom";
+import { auth } from '../auth/firebase.js';
+import { createUserWithEmailAndPassword} from "firebase/auth";
+
 
 function SignUp() {
 
@@ -21,6 +24,7 @@ function SignUp() {
         email: "",
         password: ""
     });
+    const [errorMessage, setErrorMessage] = useState("");
 
     const onChangeSignupForm = (e) => {
         setSignupForm({
@@ -48,15 +52,35 @@ function SignUp() {
             data: data
         };
 
-        axios(config)
-            .then(function () {
-                navigate("/Home");
+        createUserWithEmailAndPassword(auth, signupForm.email, signupForm.password)
+            .then((userCredential) => {
+                axios(config)
+                    .then(() => {
+                        navigate("/Home");
+                    })
+                    .catch((error) => {
+                        setErrorMessage(error.message);
+                        setSignupForm({
+                            ...signupForm,
+                            password: ""
+                        });
+                        
+                        // Delete user from Firebase
+                        userCredential.user.delete()
+                            .then(() => {
+                                console.log("User deleted from Firebase");
+                            })
+                            .catch((error) => {
+                                console.error("Error deleting user from Firebase: ", error);
+                            });
+                    });
             })
-            .catch(function () {
+            .catch((error) => {
+                setErrorMessage(error.message);
                 setSignupForm({
                     ...signupForm,
                     password: ""
-                })
+                });
             });
     }
 
@@ -73,22 +97,23 @@ function SignUp() {
                 <form>
                     <FormControl>
                         <FormLabel>Email Address</FormLabel>
-                        <Input type="email" name="email" 
-                        value={signupForm.email}
-                        onChange={onChangeSignupForm}
-                        borderColor="primary.main"
-                        borderWidth={2}
+                        <Input type="email" name="email"
+                            value={signupForm.email}
+                            onChange={onChangeSignupForm}
+                            borderColor="primary.main"
+                            borderWidth={2}
                         />
                     </FormControl>
                     <FormControl mt={4}>
                         <FormLabel>Password</FormLabel>
-                        <Input type="password" name="password" 
-                        value={signupForm.password}
-                        onChange={onChangeSignupForm}
-                        borderColor="primary.main"
-                        borderWidth={2}
+                        <Input type="password" name="password"
+                            value={signupForm.password}
+                            onChange={onChangeSignupForm}
+                            borderColor="primary.main"
+                            borderWidth={2}
                         />
                     </FormControl>
+                    {errorMessage && <Text color="red">{errorMessage}</Text>}
                     <Button
                         backgroundColor="accent.main"
                         color="text.darker"
