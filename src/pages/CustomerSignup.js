@@ -15,7 +15,6 @@ import { useNavigate, Link } from "react-router-dom";
 import { auth } from '../auth/firebase.js';
 import { createUserWithEmailAndPassword} from "firebase/auth";
 
-
 function SignUp() {
 
     let navigate = useNavigate();
