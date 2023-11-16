@@ -12,6 +12,8 @@ import {
     Link as ChakraLink
 } from "@chakra-ui/react";
 import { useNavigate, Link } from "react-router-dom";
+import { auth } from '../auth/firebase.js';
+import { signInWithEmailAndPassword } from "firebase/auth";
 
 function CustomerLogin() {
 
@@ -21,6 +23,7 @@ function CustomerLogin() {
         email: "",
         password: ""
     });
+    const [errorMessage, setErrorMessage] = useState("");
 
     const onChangeLoginForm = (e) => {
         setLoginForm({
@@ -48,16 +51,28 @@ function CustomerLogin() {
             data: data
         };
 
-        axios(config)
-            .then(function () {
-                navigate("/Home");
+        signInWithEmailAndPassword(auth, loginForm.email, loginForm.password)
+            .then(() => {
+                axios(config)
+                    .then(() => {
+                        navigate("/Home");
+                    })
+                    .catch((error) => {
+                        setErrorMessage(error.message);
+                        setLoginForm({
+                            ...loginForm,
+                            password: ""
+                        })
+                    });
             })
-            .catch(function () {
+            .catch((error) => {
+                setErrorMessage(error.message);
                 setLoginForm({
                     ...loginForm,
                     password: ""
                 })
-            });
+            }
+            );
     }
 
     return (
@@ -93,6 +108,7 @@ function CustomerLogin() {
                             borderWidth={2}
                         />
                     </FormControl>
+                    {errorMessage && <Text color="red">{errorMessage}</Text>}
                     <Button
                         backgroundColor="accent.main"
                         color="text.darker"
