@@ -43,10 +43,9 @@ function SignUp() {
 
         const config = {
             method: 'post',
-            url: 'http://localhost:50000/api/auth/signup',
+            url: 'http://raffleshopping.com/api/auth/signup',
             headers: {
-                'Content-Type': 'application/json',
-                "Access-Control-Allow-Origin": "*"
+                'Content-Type': 'application/json'
             },
             data: data
         };

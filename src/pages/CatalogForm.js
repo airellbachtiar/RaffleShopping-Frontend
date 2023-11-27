@@ -34,12 +34,13 @@ function RaffleEventForm() {
         var data = JSON.stringify({
             "Title": formData.title,
             "Description": formData.description,
-            "Price": formData.price
+            "Price": formData.price,
+            "Picture": formData.picture,
         });
 
         const config = {
             method: 'post',
-            url: 'http://localhost:50002/api/catalogs/addCatalog',
+            url: 'http://raffleshopping.com/api/catalogs',
             headers: {
                 'Content-Type': 'application/json',
                 "Access-Control-Allow-Origin": "*"
@@ -136,7 +137,7 @@ function RaffleEventForm() {
                     </Grid>
                     <Flex justify="center" mt={6}>
                         <Button colorScheme="blue" type="submit">
-                            Create Event
+                            Create Catalog
                         </Button>
                     </Flex>
                 </form>
