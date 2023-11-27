@@ -5,26 +5,11 @@ import RaffleEventGrid from "../components/RaffleEventGrid";
 
 function Home() {
 
-  const [raffleEvents, setRaffleEvents] = useState([
-    {
-      id: 1,
-      name: "Raffle Event 1",
-      description: "This is the first raffle event",
-      startDate: "2021-05-01",
-      endDate: "2021-05-31"
-    },
-    {
-      id: 2,
-      name: "Raffle Event 2",
-      description: "This is the second raffle event",
-      startDate: "2021-06-01",
-      endDate: "2021-06-30"
-    }
-  ]);
+  const [raffleEvents, setRaffleEvents] = useState([]);
 
   useEffect(() => {
     axios
-      .get("http://localhost:50001/api/raffle-events/get-raffle-event")
+      .get("http://raffleshopping.com/api/catalogs")
       .then((response) => {
         setRaffleEvents(response.data);
       })

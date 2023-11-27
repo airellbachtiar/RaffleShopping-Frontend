@@ -1,11 +1,11 @@
 import React from 'react';
-import { Grid, GridItem, Box, Button, Heading, Text } from '@chakra-ui/react';
+import { Grid, GridItem, Box, Button, Heading, Text, Image } from '@chakra-ui/react';
 import { Link } from 'react-router-dom';
 
 function RaffleEventCard({ raffleEvent, onEnterDraw }) {
 
     const handleSubmit = (e) => {
-        onEnterDraw(raffleEvent.id);
+        onEnterDraw(raffleEvent._id);
     }
 
     return (
@@ -25,10 +25,13 @@ function RaffleEventCard({ raffleEvent, onEnterDraw }) {
             <Link to={`/raffle-event/${raffleEvent.id}`}
                 cursor="pointer">
                 <Heading size="lg" mb={2}>
-                    {raffleEvent.name}
+                    {raffleEvent.title}
                 </Heading>
+                <Box>
+                    <Image src={raffleEvent.pictureUrl} alt={raffleEvent.Title} />
+                </Box>
                 <Text fontSize="md" mb={2}>
-                    {raffleEvent.description}
+                    €{raffleEvent.price}
                 </Text>
             </Link>
 
@@ -50,7 +53,7 @@ function RaffleEventGrid({ raffleEvents, onEnterDraw }) {
     return (
         <Grid templateColumns="repeat(auto-fill, minmax(400px, 1fr)" gap={6} padding={4}>
             {raffleEvents.map((raffleEvent) => (
-                <GridItem key={raffleEvent.id}>
+                <GridItem key={raffleEvent._id}>
                     <RaffleEventCard raffleEvent={raffleEvent} onEnterDraw={onEnterDraw} />
                 </GridItem>
             ))}

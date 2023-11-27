@@ -43,10 +43,9 @@ function CustomerLogin() {
 
         const config = {
             method: 'post',
-            url: 'http://localhost:50000/api/auth/login',
+            url: 'http://raffleshopping.com/api/auth/login',
             headers: {
-                'Content-Type': 'application/json',
-                "Access-Control-Allow-Origin": "*"
+                'Content-Type': 'application/json'
             },
             data: data
         };
