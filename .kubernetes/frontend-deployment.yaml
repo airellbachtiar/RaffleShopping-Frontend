@@ -9,6 +9,7 @@ metadata:
   labels:
     io.kompose.service: frontend
   name: frontend
+  namespace: ingress-nginx
 spec:
   replicas: 1
   selector:
