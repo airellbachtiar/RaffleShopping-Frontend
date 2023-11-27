@@ -9,7 +9,7 @@ function Home() {
 
   useEffect(() => {
     axios
-      .get("http://raffleshopping.com/api/catalogs")
+      .get("http://20.238.233.68/api/catalogs")
       .then((response) => {
         setRaffleEvents(response.data);
       })
