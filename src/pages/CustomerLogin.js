@@ -14,11 +14,14 @@ import {
 import { useNavigate, Link } from "react-router-dom";
 import { auth } from '../auth/firebase.js';
 import { signInWithEmailAndPassword } from "firebase/auth";
+import DOMPurify from "dompurify";
+import { useAuth } from '../auth/AuthContext';
 
 function CustomerLogin() {
 
     let navigate = useNavigate();
 
+    const { login } = useAuth();
     const [loginForm, setLoginForm] = useState({
         email: "",
         password: ""
@@ -37,23 +40,25 @@ function CustomerLogin() {
         e.preventDefault();
 
         var data = JSON.stringify({
-            "email": loginForm.email,
-            "password": loginForm.password
+            "email": DOMPurify.sanitize(loginForm.email),
+            "password": DOMPurify.sanitize(loginForm.password)
         });
 
-        const config = {
-            method: 'post',
-            url: 'http://raffleshopping.com/api/auth/login',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            data: data
-        };
-
         signInWithEmailAndPassword(auth, loginForm.email, loginForm.password)
-            .then(() => {
+            .then((reply) => {
+                console.log(reply.user.accessToken);
+                const config = {
+                    method: 'post',
+                    url: 'http://raffleshopping.com/api/auth/login',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': 'Bearer ' + reply.user.accessToken
+                    },
+                    data: data
+                };
                 axios(config)
                     .then(() => {
+                        login(reply.user.accessToken);
                         navigate("/Home");
                     })
                     .catch((error) => {

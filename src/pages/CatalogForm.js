@@ -14,6 +14,7 @@ import {
     Center
 } from "@chakra-ui/react";
 import { useNavigate } from "react-router-dom";
+import DOMPurify from "dompurify";
 
 function RaffleEventForm() {
     let navigate = useNavigate();
@@ -32,10 +33,10 @@ function RaffleEventForm() {
     const handleSubmit = (e) => {
         e.preventDefault();
         var data = JSON.stringify({
-            "Title": formData.title,
-            "Description": formData.description,
-            "Price": formData.price,
-            "Picture": formData.picture,
+            "Title": DOMPurify.sanitize(formData.title),
+            "Description": DOMPurify.sanitize(formData.description),
+            "Price": DOMPurify.sanitize(formData.price),
+            "Picture": DOMPurify.sanitize(formData.picture),
         });
 
         const config = {

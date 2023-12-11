@@ -12,8 +12,7 @@ import {
     Link as ChakraLink,
 } from "@chakra-ui/react";
 import { useNavigate, Link } from "react-router-dom";
-import { auth } from '../auth/firebase.js';
-import { createUserWithEmailAndPassword} from "firebase/auth";
+import DOMPurify from "dompurify";
 
 function SignUp() {
 
@@ -37,8 +36,9 @@ function SignUp() {
         e.preventDefault();
 
         var data = JSON.stringify({
-            "email": signupForm.email,
-            "password": signupForm.password
+            "email": DOMPurify.sanitize(signupForm.email),
+            "password": DOMPurify.sanitize(signupForm.password),
+            "role": "CUSTOMER"
         });
 
         const config = {
@@ -50,28 +50,9 @@ function SignUp() {
             data: data
         };
 
-        createUserWithEmailAndPassword(auth, signupForm.email, signupForm.password)
-            .then((userCredential) => {
-                axios(config)
-                    .then(() => {
-                        navigate("/Home");
-                    })
-                    .catch((error) => {
-                        setErrorMessage(error.message);
-                        setSignupForm({
-                            ...signupForm,
-                            password: ""
-                        });
-                        
-                        // Delete user from Firebase
-                        userCredential.user.delete()
-                            .then(() => {
-                                console.log("User deleted from Firebase");
-                            })
-                            .catch((error) => {
-                                console.error("Error deleting user from Firebase: ", error);
-                            });
-                    });
+        axios(config)
+            .then(() => {
+                navigate("/");
             })
             .catch((error) => {
                 setErrorMessage(error.message);
