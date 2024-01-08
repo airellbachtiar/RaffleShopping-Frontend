@@ -40,13 +40,21 @@ function RaffleEventForm() {
     const handlePictureChange = (e) => {
         const file = e.target.files[0];
         if (file) {
-          const reader = new FileReader();
-          reader.onload = (event) => {
-            setFormData({ ...formData, picture: event.target.result });
-          };
-          reader.readAsDataURL(file);
+            // Check file size (max size: 5MB)
+            const maxSize = 5 * 1024 * 1024; // 5MB in bytes
+            if (file.size > maxSize) {
+                alert("File size exceeds the maximum limit of 5MB.");
+                e.target.value = "";
+                return;
+            }
+
+            const reader = new FileReader();
+            reader.onload = (event) => {
+                setFormData({ ...formData, picture: event.target.result });
+            };
+            reader.readAsDataURL(file);
         }
-      };
+    };
 
     return (
         <Center minH="80vh">
@@ -69,6 +77,7 @@ function RaffleEventForm() {
                                     onChange={handleChange}
                                     borderColor="primary.main"
                                     borderWidth={2}
+                                    maxLength={40}
                                     required
                                 />
                             </FormControl>
@@ -82,6 +91,7 @@ function RaffleEventForm() {
                                     onChange={handleChange}
                                     borderColor="primary.main"
                                     borderWidth={2}
+                                    maxLength={200}
                                     required
                                 />
                             </FormControl>
@@ -124,6 +134,7 @@ function RaffleEventForm() {
                                     onChange={handleChange}
                                     borderColor="primary.main"
                                     borderWidth={2}
+                                    maxLength={4}
                                     required
                                 />
                             </FormControl>
@@ -153,6 +164,8 @@ function RaffleEventForm() {
                                     onChange={handleChange}
                                     borderColor="primary.main"
                                     borderWidth={2}
+                                    min={0}
+                                    max={999999}
                                     required
                                 />
                             </FormControl>
@@ -167,7 +180,8 @@ function RaffleEventForm() {
                                     onChange={handleChange}
                                     borderColor="primary.main"
                                     borderWidth={2}
-                                    min={1} // Set the minimum value
+                                    min={1}
+                                    max={999999}
                                     required
                                 />
                             </FormControl>
@@ -182,7 +196,8 @@ function RaffleEventForm() {
                                     onChange={handleChange}
                                     borderColor="primary.main"
                                     borderWidth={2}
-                                    min={1} // Set the minimum value
+                                    min={1}
+                                    max={999999}
                                     required
                                 />
                             </FormControl>

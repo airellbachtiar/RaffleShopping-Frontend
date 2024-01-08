@@ -99,6 +99,7 @@ function CustomerLogin() {
                             onChange={onChangeLoginForm}
                             borderColor="primary.main"
                             borderWidth={2}
+                            maxLength={100}
                         />
                     </FormControl>
                     <FormControl mt={4}>
@@ -110,6 +111,7 @@ function CustomerLogin() {
                             onChange={onChangeLoginForm}
                             borderColor="primary.main"
                             borderWidth={2}
+                            maxLength={100}
                         />
                     </FormControl>
                     {errorMessage && <Text color="red">{errorMessage}</Text>}

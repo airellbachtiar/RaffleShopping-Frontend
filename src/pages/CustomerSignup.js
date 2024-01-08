@@ -103,6 +103,7 @@ function SignUp() {
                             onChange={onChangeSignupForm}
                             borderColor="primary.main"
                             borderWidth={2}
+                            maxLength={100}
                         />
                     </FormControl>
                     <FormControl mt={4}>
@@ -112,6 +113,7 @@ function SignUp() {
                             onChange={onChangeSignupForm}
                             borderColor="primary.main"
                             borderWidth={2}
+                            maxLength={100}
                         />
                     </FormControl>
                     <FormControl mt={4}>
