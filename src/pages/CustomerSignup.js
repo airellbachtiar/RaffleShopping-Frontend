@@ -6,10 +6,20 @@ import {
     FormControl,
     FormLabel,
     Input,
+    Checkbox,
     Center,
     Heading,
     Text,
     Link as ChakraLink,
+    Modal,
+    ModalOverlay,
+    ModalContent,
+    ModalHeader,
+    ModalCloseButton,
+    ModalBody,
+    ModalFooter,
+    useDisclosure,
+    Flex,
 } from "@chakra-ui/react";
 import { useNavigate, Link } from "react-router-dom";
 import DOMPurify from "dompurify";
@@ -18,10 +28,13 @@ function SignUp() {
 
     let navigate = useNavigate();
 
+    const { isOpen, onOpen, onClose } = useDisclosure();
+
     const [signupForm, setSignupForm] = useState({
         email: "",
         password: ""
     });
+    const [isChecked, setIsChecked] = useState(false);
     const [errorMessage, setErrorMessage] = useState("");
 
     const onChangeSignupForm = (e) => {
@@ -31,9 +44,18 @@ function SignUp() {
         })
     }
 
+    const handleCheckboxChange = () => {
+        setIsChecked(!isChecked);
+    };
+
     const handleSubmit = (e) => {
 
         e.preventDefault();
+
+        if (!isChecked) {
+            setErrorMessage("Please agree to the terms and conditions.");
+            return;
+        }
 
         var data = JSON.stringify({
             "email": DOMPurify.sanitize(signupForm.email),
@@ -91,6 +113,34 @@ function SignUp() {
                             borderColor="primary.main"
                             borderWidth={2}
                         />
+                    </FormControl>
+                    <FormControl mt={4}>
+                        <Flex align="center" mt={4}>
+                            <Checkbox
+                                borderColor="primary.main"
+                                isChecked={isChecked}
+                                onChange={handleCheckboxChange}
+                            >
+                            </Checkbox>
+                            <ChakraLink onClick={onOpen} color="primary.main" ml={2}>
+                                I agree to the terms and conditions
+                            </ChakraLink>
+                        </Flex>
+                        <Modal isOpen={isOpen} onClose={onClose}>
+                            <ModalOverlay />
+                            <ModalContent>
+                                <ModalHeader>Terms and Conditions</ModalHeader>
+                                <ModalCloseButton />
+                                <ModalBody>
+                                    I accept that my data will be saved and used for the purpose of this raffle.
+                                </ModalBody>
+                                <ModalFooter>
+                                    <Button borderColor="primary.main" onClick={onClose}>
+                                        Close
+                                    </Button>
+                                </ModalFooter>
+                            </ModalContent>
+                        </Modal>
                     </FormControl>
                     {errorMessage && <Text color="red">{errorMessage}</Text>}
                     <Button
